@@ -31,9 +31,6 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)// will look for an author variable inside the post
-    private List<Post> posts = new ArrayList<>();
-
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
