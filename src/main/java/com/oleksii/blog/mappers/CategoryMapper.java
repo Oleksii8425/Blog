@@ -2,6 +2,7 @@ package com.oleksii.blog.mappers;
 
 import com.oleksii.blog.domain.PostStatus;
 import com.oleksii.blog.domain.dtos.CategoryDto;
+import com.oleksii.blog.domain.dtos.CreateCategoryRequest;
 import com.oleksii.blog.domain.entities.Category;
 import com.oleksii.blog.domain.entities.Post;
 import org.mapstruct.Mapper;
@@ -16,6 +17,8 @@ public interface CategoryMapper {
 
     @Mapping(target = "postCount", source = "posts", qualifiedByName = "calculatePostCount")
     CategoryDto toDto(Category category);
+
+    Category toEntity(CreateCategoryRequest createCategoryRequest);
 
     @Named("calculatePostCount")
     default long calculatePostCount(List<Post> posts) {
