@@ -1,14 +1,15 @@
 package com.oleksii.blog.controllers;
 
 import com.oleksii.blog.domain.dtos.CategoryDto;
+import com.oleksii.blog.domain.dtos.CreateCategoryRequest;
 import com.oleksii.blog.domain.entities.Category;
 import com.oleksii.blog.mappers.CategoryMapper;
 import com.oleksii.blog.services.impl.CategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,6 +28,19 @@ public class CategoryController {
                 .stream().map(categoryMapper::toDto)
                 .toList();
         return ResponseEntity.ok(categories);
+    }
+
+    @PostMapping
+    public ResponseEntity<CategoryDto> createCategory(
+            @Valid @RequestBody CreateCategoryRequest createCategoryRequest) {
+
+        Category categoryToCreate = categoryMapper.toEntity(createCategoryRequest);
+        Category savedCategory = categoryService.createCategory(categoryToCreate);
+
+        return new ResponseEntity<>(
+                categoryMapper.toDto(savedCategory),
+                HttpStatus.CREATED
+        );
     }
 
 }
