@@ -37,9 +37,14 @@ public class Post {
     @Column(nullable = false)
     private Integer readingTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)// optimizes performance by loading authors only when they're explicitly accessed
+    // optimizes performance by loading authors only when they're explicitly accessed
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false )
     private User author;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
