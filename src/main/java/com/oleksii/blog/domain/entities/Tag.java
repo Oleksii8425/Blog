@@ -26,7 +26,8 @@ public class Tag {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Tag tag = (Tag) o;
-        return Objects.equals(id, tag.id) && Objects.equals(name, tag.name);
+        return Objects.equals(id, tag.id) &&
+                Objects.equals(name, tag.name);
     }
 
     @Override

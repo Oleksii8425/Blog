@@ -37,6 +37,10 @@ public class Post {
     @Column(nullable = false)
     private Integer readingTime;
 
+    @ManyToOne(fetch = FetchType.LAZY)// optimizes performance by loading authors only when they're explicitly accessed
+    @JoinColumn(name = "author_id", nullable = false )
+    private User author;
+
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
@@ -47,7 +51,13 @@ public class Post {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Post post = (Post) o;
-        return Objects.equals(id, post.id) && Objects.equals(title, post.title) && Objects.equals(content, post.content) && Objects.equals(text, post.text) && status == post.status && Objects.equals(readingTime, post.readingTime) && Objects.equals(createdAt, post.createdAt) && Objects.equals(updatedAt, post.updatedAt);
+        return Objects.equals(id, post.id) &&
+                Objects.equals(title, post.title) &&
+                Objects.equals(content, post.content) &&
+                Objects.equals(text, post.text) && status == post.status &&
+                Objects.equals(readingTime, post.readingTime) &&
+                Objects.equals(createdAt, post.createdAt) &&
+                Objects.equals(updatedAt, post.updatedAt);
     }
 
     @Override

@@ -26,7 +26,8 @@ public class Category {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Category category = (Category) o;
-        return Objects.equals(id, category.id) && Objects.equals(name, category.name);
+        return Objects.equals(id, category.id)
+                && Objects.equals(name, category.name);
     }
 
     @Override

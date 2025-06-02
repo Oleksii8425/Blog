@@ -31,6 +31,11 @@ public class User {
     @Column(nullable = false)
     private String name;
 
+    // will look for an author instance variable in the post for the configuration it needs;
+    // additionally when the author is deleted, all their posts will be deleted, too.
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Post> posts = new ArrayList<>();
+
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
@@ -38,7 +43,11 @@ public class User {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(name, user.name) && Objects.equals(createdAt, user.createdAt);
+        return Objects.equals(id, user.id) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(name, user.name) &&
+                Objects.equals(createdAt, user.createdAt);
     }
 
     @Override
