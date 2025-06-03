@@ -1,11 +1,15 @@
 package com.oleksii.blog.repositories;
 
-import com.oleksii.blog.domain.entities.Tag;
+import com.oleksii.blog.domain.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface TagRepository extends JpaRepository<Tag, UUID> {
+public interface IUserRepository extends JpaRepository<User, UUID> {
+
+    Optional<User> findByEmail(String email);
+
 }
