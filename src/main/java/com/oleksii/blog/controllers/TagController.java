@@ -3,7 +3,7 @@ package com.oleksii.blog.controllers;
 import com.oleksii.blog.domain.dtos.CreateTagsRequest;
 import com.oleksii.blog.domain.dtos.TagDto;
 import com.oleksii.blog.domain.entities.Tag;
-import com.oleksii.blog.mappers.TagMapper;
+import com.oleksii.blog.mappers.ITagMapper;
 import com.oleksii.blog.services.ITagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import java.util.UUID;
 public class TagController {
 
     private final ITagService tagService;
-    private final TagMapper tagMapper;
+    private final ITagMapper tagMapper;
 
     @GetMapping
     public ResponseEntity<List<TagDto>> getAllTags() {

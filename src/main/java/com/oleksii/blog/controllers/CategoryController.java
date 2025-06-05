@@ -3,7 +3,7 @@ package com.oleksii.blog.controllers;
 import com.oleksii.blog.domain.dtos.CategoryDto;
 import com.oleksii.blog.domain.dtos.CreateCategoryRequest;
 import com.oleksii.blog.domain.entities.Category;
-import com.oleksii.blog.mappers.CategoryMapper;
+import com.oleksii.blog.mappers.ICategoryMapper;
 import com.oleksii.blog.services.impl.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    private final CategoryMapper categoryMapper;
+    private final ICategoryMapper categoryMapper;
 
     @GetMapping
     public ResponseEntity<List<CategoryDto>> listCategories() {
