@@ -3,6 +3,7 @@ package com.oleksii.blog.services.impl;
 import com.oleksii.blog.domain.entities.Category;
 import com.oleksii.blog.repositories.ICategoryRepository;
 import com.oleksii.blog.services.ICategoryService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,33 +16,41 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CategoryService implements ICategoryService {
 
-    private final ICategoryRepository ICategoryRepository;
+    private final ICategoryRepository categoryRepository;
 
     @Override
     public List<Category> listCategories() {
-        return ICategoryRepository.findAllWithPostCount();
+        return categoryRepository.findAllWithPostCount();
     }
 
     @Override
     @Transactional// makes multiple calls to a database (lines 27 and 31) happen in a single transaction
     public Category createCategory(Category category) {
         String categoryName = category.getName();
-        if (ICategoryRepository.existsByNameIgnoreCase(categoryName)) {
+        if (categoryRepository.existsByNameIgnoreCase(categoryName)) {
             throw new IllegalArgumentException("Category already exists with name: " + categoryName);
         }
 
-        return ICategoryRepository.save(category);
+        return categoryRepository.save(category);
     }
 
     @Override
     public void deleteCategory(UUID id) {
-        Optional<Category> category = ICategoryRepository.findById(id);
+        Optional<Category> category = categoryRepository.findById(id);
         if (category.isPresent()) {
             if (!category.get().getPosts().isEmpty()) {
                 throw new IllegalStateException("Category has posts associated with it!");
             }
 
-            ICategoryRepository.deleteById(id);
+            categoryRepository.deleteById(id);
         }
+    }
+
+    @Override
+    public Category getCategoryById(UUID id) {
+        categoryRepository.findById(id)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Category not found with id " + id)
+                );
     }
 }

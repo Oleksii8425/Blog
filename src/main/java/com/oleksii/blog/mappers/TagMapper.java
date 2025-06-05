@@ -1,7 +1,7 @@
 package com.oleksii.blog.mappers;
 
 import com.oleksii.blog.domain.PostStatus;
-import com.oleksii.blog.domain.dtos.TagRepsonse;
+import com.oleksii.blog.domain.dtos.TagDto;
 import com.oleksii.blog.domain.entities.Post;
 import com.oleksii.blog.domain.entities.Tag;
 import org.mapstruct.Mapper;
@@ -15,7 +15,7 @@ import java.util.Set;
 public interface TagMapper {
 
     @Mapping(target = "postCount", source = "posts", qualifiedByName = "calculatePostCount")
-    TagRepsonse toTagResponse(Tag tag);
+    TagDto toTagResponse(Tag tag);
 
     @Named("calculatePostCount")
     default Integer calculatePostCount(Set<Post> posts) {

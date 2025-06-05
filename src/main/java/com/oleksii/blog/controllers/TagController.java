@@ -1,7 +1,7 @@
 package com.oleksii.blog.controllers;
 
 import com.oleksii.blog.domain.dtos.CreateTagsRequest;
-import com.oleksii.blog.domain.dtos.TagRepsonse;
+import com.oleksii.blog.domain.dtos.TagDto;
 import com.oleksii.blog.domain.entities.Tag;
 import com.oleksii.blog.mappers.TagMapper;
 import com.oleksii.blog.services.ITagService;
@@ -22,16 +22,16 @@ public class TagController {
     private final TagMapper tagMapper;
 
     @GetMapping
-    public ResponseEntity<List<TagRepsonse>> getAllTags() {
+    public ResponseEntity<List<TagDto>> getAllTags() {
         List<Tag> tags = tagService.getTags();
-        List<TagRepsonse> tagResponses = tags.stream().map(tagMapper::toTagResponse).toList();
+        List<TagDto> tagResponses = tags.stream().map(tagMapper::toTagResponse).toList();
         return ResponseEntity.ok(tagResponses);
     }
 
     @PostMapping
-    public ResponseEntity<List<TagRepsonse>> createTags(@RequestBody CreateTagsRequest createTagsRequest) {
+    public ResponseEntity<List<TagDto>> createTags(@RequestBody CreateTagsRequest createTagsRequest) {
         List<Tag> savedTags = tagService.createTags(createTagsRequest.getNames());
-        List<TagRepsonse> createdTagResponses = savedTags.stream()
+        List<TagDto> createdTagResponses = savedTags.stream()
                 .map(tagMapper::toTagResponse)
                 .toList();
 
