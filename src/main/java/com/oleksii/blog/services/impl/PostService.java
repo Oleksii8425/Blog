@@ -4,6 +4,7 @@ import com.oleksii.blog.domain.PostStatus;
 import com.oleksii.blog.domain.entities.Category;
 import com.oleksii.blog.domain.entities.Post;
 import com.oleksii.blog.domain.entities.Tag;
+import com.oleksii.blog.domain.entities.User;
 import com.oleksii.blog.repositories.IPostRepository;
 import com.oleksii.blog.services.ICategoryService;
 import com.oleksii.blog.services.IPostService;
@@ -55,6 +56,11 @@ public class PostService implements IPostService {
         }
 
         return postRepository.findAllByStatus(PostStatus.PUBLISHED);
+    }
+
+    @Override
+    public List<Post> getDraftPosts(User user) {
+        return postRepository.findAllByStatusAndAuthor(PostStatus.DRAFT, user);
     }
 
 }
