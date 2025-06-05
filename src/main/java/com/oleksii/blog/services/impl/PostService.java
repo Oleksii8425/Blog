@@ -36,7 +36,7 @@ public class PostService implements IPostService {
     @Transactional(readOnly = true)
     public List<Post> getAllPosts(UUID categoryId, UUID tagId) {
         if (categoryId != null && tagId != null) {
-            Category category = categoryService.getCategoryById(categoryId);
+            Category category = categoryService.getCategory(categoryId);
             Tag tag = tagService.getTagById(tagId);
 
             return postRepository.findAllByStatusAndCategoryAndTagsContaining(
@@ -47,7 +47,7 @@ public class PostService implements IPostService {
         }
 
         if (categoryId != null) {
-            Category category = categoryService.getCategoryById(categoryId);
+            Category category = categoryService.getCategory(categoryId);
             return postRepository.findAllByStatusAndCategory(
                     PostStatus.PUBLISHED,
                     category
@@ -90,7 +90,7 @@ public class PostService implements IPostService {
         newPost.setAuthor(user);
         newPost.setReadingTime(calculateReadingTime(createPostRequest.getContent()));
 
-        Category category = categoryService.getCategoryById(createPostRequest.getCategoryId());
+        Category category = categoryService.getCategory(createPostRequest.getCategoryId());
         newPost.setCategory(category);
 
         Set<UUID> tagIds = createPostRequest.getTagIds();
@@ -115,7 +115,7 @@ public class PostService implements IPostService {
 
         UUID updatePostRequestCategoryId = updatePostRequest.getCategoryId();
         if(!existingPost.getCategory().getId().equals(updatePostRequestCategoryId)) {
-            Category newCategory = categoryService.getCategoryById(updatePostRequestCategoryId);
+            Category newCategory = categoryService.getCategory(updatePostRequestCategoryId);
             existingPost.setCategory(newCategory);
         }
 
