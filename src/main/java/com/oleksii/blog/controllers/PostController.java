@@ -1,13 +1,16 @@
 package com.oleksii.blog.controllers;
 
 import com.oleksii.blog.domain.CreatePostRequest;
+import com.oleksii.blog.domain.UpdatePostRequest;
 import com.oleksii.blog.domain.dtos.CreatePostRequestDto;
 import com.oleksii.blog.domain.dtos.PostDto;
+import com.oleksii.blog.domain.dtos.UpdatePostRequestDto;
 import com.oleksii.blog.domain.entities.Post;
 import com.oleksii.blog.domain.entities.User;
 import com.oleksii.blog.mappers.IPostMapper;
 import com.oleksii.blog.services.IPostService;
 import com.oleksii.blog.services.IUserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +48,7 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<PostDto> createPost(
-            @RequestBody CreatePostRequestDto createPostRequestDto,
+            @Valid @RequestBody CreatePostRequestDto createPostRequestDto,
             @RequestAttribute UUID userId) {
 
         User loggedInuser = userService.getUserByID(userId);
@@ -53,6 +56,18 @@ public class PostController {
         Post createdPost = postService.createPost(loggedInuser, createPostRequest);
         PostDto createdPostDto = postMapper.toDto(createdPost);
         return new ResponseEntity<>(createdPostDto, HttpStatus.CREATED);
+    }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<PostDto> updatePost(
+            @PathVariable("id") UUID id,
+            @Valid @RequestBody UpdatePostRequestDto updatePostRequestDto) {
+
+        UpdatePostRequest updatePostRequest = postMapper.toUpdatePostRequest(updatePostRequestDto);
+
+        Post updatedPost = postService.updatePost(id, updatePostRequest);
+        PostDto updatedPostDto = postMapper.toDto(updatedPost);
+        return ResponseEntity.ok(updatedPostDto);
     }
 
 }

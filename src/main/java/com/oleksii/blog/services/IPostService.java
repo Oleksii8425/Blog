@@ -1,6 +1,7 @@
 package com.oleksii.blog.services;
 
 import com.oleksii.blog.domain.CreatePostRequest;
+import com.oleksii.blog.domain.UpdatePostRequest;
 import com.oleksii.blog.domain.entities.Post;
 import com.oleksii.blog.domain.entities.User;
 
@@ -11,4 +12,5 @@ public interface IPostService {
     List<Post> getAllPosts(UUID categoryId, UUID tagId);
     List<Post> getDraftPosts(User user);
     Post createPost(User user, CreatePostRequest createPostRequest);
+    Post updatePost(UUID id, UpdatePostRequest updatePostRequest);
 }
