@@ -67,6 +67,15 @@ public class PostService implements IPostService {
     }
 
     @Override
+    public Post getPost(UUID id) {
+        return postRepository
+                .findById(id)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Post does not exist with id " + id)
+                );
+    }
+
+    @Override
     public List<Post> getDraftPosts(User user) {
         return postRepository.findAllByStatusAndAuthor(PostStatus.DRAFT, user);
     }
